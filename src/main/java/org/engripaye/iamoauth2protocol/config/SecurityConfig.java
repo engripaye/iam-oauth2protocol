@@ -1,13 +1,19 @@
 package org.engripaye.iamoauth2protocol.config;
 
 import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.JWK;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.proc.SecurityContext;
+
+
 import com.nimbusds.jose.jwk.source.JWKSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.context.SecurityContext;
+
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
@@ -18,9 +24,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
-import java.security.interfaces.RSAKey;
+
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Collections;
 import java.util.UUID;
 
 @Configuration
@@ -53,7 +60,7 @@ public class SecurityConfig {
     @Bean
     public JWKSource<SecurityContext> jwkSource() {
         RSAKey rsaKey = generateRsa();
-        JWKSet jwkSet = new JWKSet(rsaKey);
+        JWKSet jwkSet = new JWKSet(Collections.singletonList(rsaKey)); // ✅ Correct
         return (jwkSelector, context) -> jwkSelector.select(jwkSet);
     }
 

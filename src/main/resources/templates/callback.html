@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OAuth2 Callback</title>
+    <script>
+        window.onload = function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            const state = urlParams.get('state');
+
+            document.getElementById("code").textContent = code || "None";
+            document.getElementById("state").textContent = state || "None";
+        };
+    </script>
+</head>
+<body>
+<h1>OAuth2 Authorization Successful</h1>
+<p><strong>Authorization Code:</strong> <span id="code"></span></p>
+<p><strong>State:</strong> <span id="state"></span></p>
+</body>
+</html>
